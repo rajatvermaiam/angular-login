@@ -3,19 +3,29 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { BeforeLoginService } from './auth/services/before-login.service';
+import { AfterLoginService } from './auth/services/after-login.service';
+import { LoadingSpinnerComponent } from './effects/loading-spinner/loading-spinner.component';
 
 const routes: Routes = [
   {
     path:'',
-    component:HomepageComponent
+    component:HomepageComponent,
+    canActivate: [AfterLoginService]
   },
   {
     path: 'signin',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate:[BeforeLoginService]
  },
  {
   path: 'signup',
-  component: SignupComponent
+  component: SignupComponent,
+  canActivate:[BeforeLoginService]
+  },
+  { 
+    path: '**',
+    component:LoadingSpinnerComponent,
   }
 ];
 

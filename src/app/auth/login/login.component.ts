@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthRequestService } from '../services/auth-request.service';
 import { TokenService } from '../services/token.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthStatusService } from '../services/auth-status.service';
 
 @Component({
@@ -17,15 +17,18 @@ export class LoginComponent implements OnInit {
     password: ''
   };
   isLoading=false;
+  returnUrl: string;
 
   constructor(  private toastr: ToastrService,
                 private authRequestService:AuthRequestService,
                 private token:TokenService,
                 private router:Router,
-                private authStatus:AuthStatusService
+                private authStatus:AuthStatusService,
+                private route: ActivatedRoute
                 ) { }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit(){
@@ -36,7 +39,7 @@ export class LoginComponent implements OnInit {
           this.isLoading=false;
           this.token.setUser(data);
           this.authStatus.changeAuthStatus(true);
-          this.router.navigateByUrl('');
+          this.router.navigateByUrl(this.returnUrl);
         },
         error =>{
           this.isLoading=false;

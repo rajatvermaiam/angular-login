@@ -24,7 +24,7 @@ export class HomepageComponent implements OnInit {
   logout(){
     this.token.remove();
     this.authStatus.changeAuthStatus(false);
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('signin');
   }
 
 }
