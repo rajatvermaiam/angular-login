@@ -1,0 +1,13 @@
+<div *ngIf="isLoading" style="text-align: center;background: white;">
+		<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="login-page" *ngIf="!isLoading">
+    <div class="form">
+      <form class="login-form" (ngSubmit)="onSubmit()">
+        <input type="email" placeholder="username" [(ngModel)]="signin.email" name="email" required/>
+        <input type="password" placeholder="password" [(ngModel)]="signin.password" name="password" required/>
+        <button>login</button>
+        <p class="message">Not registered? <a routerLink="../signup">Create an account</a></p>
+      </form>
+    </div>
+  </div>
