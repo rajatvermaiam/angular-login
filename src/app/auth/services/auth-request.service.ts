@@ -16,4 +16,10 @@ export class AuthRequestService {
   sigin(data){
     return this.http.post(this.apiUrl+'login',data);
   }
+  sendPasswordResetLink(data){
+    return this.http.post(this.apiUrl+'send-otp',data);
+  }
+  changePassword(data){
+    return this.http.post(this.apiUrl+'resetPassword',data);
+  }
 }
