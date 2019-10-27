@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   };
   isLoading=false;
   returnUrl: string;
-
+  
   constructor(  private toastr: ToastrService,
                 private authRequestService:AuthRequestService,
                 private token:TokenService,
@@ -39,11 +39,12 @@ export class LoginComponent implements OnInit {
           this.isLoading=false;
           this.token.setUser(data);
           this.authStatus.changeAuthStatus(true);
+         this.toastr.success(data['message']);
           this.router.navigateByUrl(this.returnUrl);
         },
         error =>{
           this.isLoading=false;
-          this.toastr.error('Invalid User name or Password.');
+          this.toastr.error(error.error.message);
         }
       );
     }

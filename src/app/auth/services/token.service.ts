@@ -26,10 +26,10 @@ export class TokenService {
   }
 
   loggedIn() {
-    const user = this.getUser();
-    if (user)
+    const token = this.getToken();
+    if (token)
     {
-    if (JSON.parse(atob(JSON.parse(user).token.split('.')[1])).sub==10)
+    if (JSON.parse(atob(token.split('.')[0])).alg=='RS256')
     return true;
     else
     return false; 

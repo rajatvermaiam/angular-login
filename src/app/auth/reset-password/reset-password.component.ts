@@ -14,7 +14,7 @@ export class ResetPasswordComponent implements OnInit {
     email: null,
     password: '',
     password_confirmation: '',
-    resetToken: null
+    token: ''
   };
   public isLoading=false;
 
@@ -23,11 +23,13 @@ export class ResetPasswordComponent implements OnInit {
               private router:Router,
               private route: ActivatedRoute) { 
                 route.queryParams.subscribe(params => {
-                  this.form.resetToken = params['token'];
+                  this.form.token = params['token'];
                 });
               }
 
   ngOnInit() {
+    this.form.token=this.route.snapshot.paramMap.get('token');
+    this.checkToken();
   }
 
   onSubmit(){
@@ -36,16 +38,28 @@ export class ResetPasswordComponent implements OnInit {
       this.authRequestService.changePassword(this.form).subscribe(
         data => {
           this.isLoading=false;
-          this.toastr.success('Password successfully changed.');
+          this.toastr.success(data['message']);
           this.router.navigateByUrl('/signin');
         },
         error => {
           this.isLoading=false;
           this.toastr.error(error.error.message);
-          this.router.navigateByUrl('/signin');
+          // this.router.navigateByUrl('/signin');
         }
       );
     }
+  }
+
+  checkToken(){
+    this.authRequestService.checkToken(this.form.token).subscribe(
+      data => {
+        this.form.email=data['data']['email'];
+      },
+      error => {
+        this.toastr.error(error.error.message);
+        this.router.navigateByUrl('/signin');
+      }
+    );
   }
 
   validateRequest() {
@@ -58,14 +72,15 @@ export class ResetPasswordComponent implements OnInit {
     } else if (!emailRegex.test(String(this.form.email).toLowerCase())) {
       this.toastr.warning('Please enter valid email address');
       return false;
-    }else if (this.form.password === '') {
+    }
+    else if (this.form.password === '') {
       this.toastr.warning('Password is required');
       return false;
     } else if (this.form.password_confirmation === '') {
       this.toastr.warning('Confirm Password is required');
       return false;
-    } else if (this.form.password.length < 6) {
-      this.toastr.warning('Password length should be greater than 6 characters');
+    } else if (this.form.password.length < 8) {
+      this.toastr.warning('Password length should be greater than 7 characters');
       return false;
     } else if (this.form.password.length > 20) {
       this.toastr.warning('Password length should be less than 20 characters');

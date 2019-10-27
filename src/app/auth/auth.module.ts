@@ -42,6 +42,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
               canActivate:[BeforeLoginService]
             },
             {
+              path: 'response-password-reset/:token',
+              component: ResetPasswordComponent,
+              canActivate:[BeforeLoginService]
+            },
+            {
               path: 'response-password-reset',
               component: ResetPasswordComponent,
               canActivate:[BeforeLoginService]

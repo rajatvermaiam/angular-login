@@ -32,8 +32,8 @@ export class SignupComponent implements OnInit {
     this.authRequestService.signUp(this.signup).subscribe(
       data=>{
         this.isLoading=false;
-        this.toastr.success('Please activate account by visting email inbox');
-        this.router.navigateByUrl('/');
+        this.toastr.success(data['message']);
+        this.router.navigateByUrl('/signin');
       },
       error=>{
         this.isLoading=false;
@@ -68,8 +68,8 @@ export class SignupComponent implements OnInit {
       } else if (this.signup.password_confirmation === '') {
         this.toastr.warning('Confirm Password is required');
         return false;
-      } else if (this.signup.password.length < 6) {
-        this.toastr.warning('Password length should be greater than 6 characters');
+      } else if (this.signup.password.length < 8) {
+        this.toastr.warning('Password length should be greater than 7 characters');
         return false;
       } else if (this.signup.password.length > 20) {
         this.toastr.warning('Password length should be less than 20 characters');
